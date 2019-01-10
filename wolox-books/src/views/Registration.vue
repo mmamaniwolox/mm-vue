@@ -61,11 +61,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  $blue: #00ADEE;
-  $green: #BED23C;
-  $light-grey: #F1F1F1;
-  $white: #FFF;
-  $darker-grey: #ACACAC;
+  @import "../scss/colors.scss";
 
   .container {
     background-color: $light-grey;
