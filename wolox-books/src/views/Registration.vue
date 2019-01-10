@@ -4,7 +4,6 @@
       <img :src="woloxLogo" alt="wolox logo" class="wolox-logo" />
       <h4>BOOKS</h4>
     </div>
-
     <form @submit.prevent="onSubmit" class="form">
       <div class="input-label">
         <label for="firstName" class="label">First Name</label>
@@ -24,7 +23,6 @@
       </div>
       <input type="submit" value="Sign Up" class="button"/>
     </form>
-
     <button class="button login-button">Login</button>
   </div>
 </template>
