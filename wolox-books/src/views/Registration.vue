@@ -15,25 +15,31 @@
       </div>
       <div class="input-label">
         <label for="email" class="label">Email</label>
-        <input id="email" v-model="email" class="input" />
+        <input v-validate="'required|email'" id="email" v-model="email" class="input" name="email" type="email" />
+        <span v-show="errors.has('email')" class="error">{{ errors.first('email') }}</span>
       </div>
       <div class="input-label">
         <label for="password" class="label">Password</label>
-        <input id="password" type="password" v-model="password" class="input" />
+        <input id="password" type="password" v-model="password" class="input"  name="password" 
+        v-validate="{ required: true, regex: /^[A-Z0-9]+[A-Z0-9]+[A-Z0-9]*$/i }" />
+        <span v-show="errors.has('password')" class="error">{{ errors.first('password') }}</span>
       </div>
-      <input type="submit" value="Sign Up" class="button"/>
+      <input type="submit" value="Sign Up" class="button" :disabled="errors.items.length > 0" />
     </form>
     <button class="button login-button">Login</button>
   </div>
 </template>
 
 <script>
-import woloxLogo from '../assets/wolox_logo.svg';
+import Vue from 'vue'
+import woloxLogo from '../assets/wolox_logo.svg'
+import VeeValidate from 'vee-validate'
+Vue.use(VeeValidate)
 
 export default {
   name: 'Registration',
   props: {},
-  data() {
+  data () {
     return {
       firstName: null,
       lastName: null,
@@ -43,14 +49,14 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
+    onSubmit () {
       let registrationData = {
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
         password: this.password
       }
-      console.log(registrationData);
+      console.log(registrationData)
       this.firstName = null,
       this.lastName = null,
       this.email = null,
@@ -58,6 +64,17 @@ export default {
     }
   }
 }
+
+const dict = {
+  custom: {
+    email: {
+      required: 'Your email is empty'
+    },
+    name: {
+      required: () => 'Your name is empty'
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -101,6 +118,10 @@ export default {
   .button {
     border: none;
     border-radius: 5px;
+
+    &:disabled {
+      background-color: $grey;
+    }
   }
 
   .input {
@@ -118,11 +139,22 @@ export default {
     &:hover {
       cursor: pointer;
     }
+
+    &:disabled {
+      cursor: default;
+    }
   }
 
   .login-button {
     background-color: transparent;
     border: 2px solid $green;
     color: $green;
+  }
+
+  .error {
+    align-self: baseline;
+    color: $red;
+    font-size: 12px;
+    margin: 5px;
   }
 </style>
